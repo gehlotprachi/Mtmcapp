@@ -44,8 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Aboutus()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AboutusScreen()));
                   },
                   child: _buildButton(Icons.info, 'About Us',
                       Colors.yellow[600]!, Colors.white),

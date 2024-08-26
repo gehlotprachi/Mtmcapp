@@ -1,14 +1,14 @@
 import 'package:collegeapp/myhomepage.dart';
 import 'package:collegeapp/signin.dart';
+import 'package:collegeapp/signupModel.dart';
 import 'package:collegeapp/theme/theme.dart';
 import 'package:collegeapp/widgets/CustomScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:collegeapp/uiHelper.dart';
-import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
@@ -214,115 +214,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            SignUpModel(
-                                emailController.text.toString(),
-                                passwordController.text.toString(),
-                                usernameController.text.toString());
-
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => MyHomePage()));
-                            if (_formSignupKey.currentState!.validate() &&
-                                agreePersonalData) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Processing Data'),
-                                ),
-                              );
-                            } else if (!agreePersonalData) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please agree to the processing of personal data')),
-                              );
-                            }
-                          },
-                          child: const Text('Sign up'),
-                        ),
+                            onPressed: () {
+                              signup(
+                                  emailController.text.toString(),
+                                  passwordController.text.toString(),
+                                  usernameController.text.toString());
+                            },
+                            child: Text('Sign up')),
                       ),
-                      // const SizedBox(
-                      //   height: 30.0,
-                      // ),
-                      // // sign up divider
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Expanded(
-                      //       child: Divider(
-                      //         thickness: 0.7,
-                      //         color: Colors.grey.withOpacity(0.5),
-                      //       ),
-                      //     ),
-                      //     const Padding(
-                      //       padding: EdgeInsets.symmetric(
-                      //         vertical: 0,
-                      //         horizontal: 10,
-                      //       ),
-                      //       child: Text(
-                      //         'Sign up with',
-                      //         style: TextStyle(
-                      //           color: Colors.black45,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     Expanded(
-                      //       child: Divider(
-                      //         thickness: 0.7,
-                      //         color: Colors.grey.withOpacity(0.5),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 30.0,
-                      // ),
-                      // // sign up social media logo
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     Logo(Logos.facebook_f),
-                      //     Logo(Logos.twitter),
-                      //     Logo(Logos.google),
-                      //     Logo(Logos.apple),
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 25.0,
-                      // ),
-                      // // already have an account
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     const Text(
-                      //       'Already have an account? ',
-                      //       style: TextStyle(
-                      //         color: Colors.black45,
-                      //       ),
-                      //     ),
-                      //     GestureDetector(
-                      //       onTap: () {
-                      //         Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //             builder: (e) => const SignInScreen(),
-                      //           ),
-                      //         );
-                      //       },
-                      //       child: Text(
-                      //         'Sign in',
-                      //         style: TextStyle(
-                      //           fontWeight: FontWeight.bold,
-                      //           color: lightColorScheme.primary,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 20.0,
-                      // ),
                     ],
                   ),
                 ),
@@ -335,19 +234,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 }
 
-SignUpModel(String email, String password, String username) async {
+//Future<SignUpModel>
+signup(String email, String password, String username) async {
   if (email == "" || password == "" || username == "") {
-    log("Enter Required Field's");
+    //TODO Enter Required Field's
+    return log("Enter Required Field's");
   } else {
     final response = await http.post(
         Uri.parse("https://mtmc.vercel.app/mtmc/signup"),
+        headers: {"Content-Type": "application/json"},
         body: jsonEncode(
-            {"email": email, "password": password, "username": username}),
-        headers: {"Content-Type": "application/json"});
+            {"email": email, "password": password, "username": username}));
     if (response.statusCode == 200) {
-      return log(response.body);
+      Map<String, dynamic> responsedata = jsonDecode(response.body);
+      SignUpModel signUpModel = SignUpModel.fromJson(responsedata);
+      return signUpModel;
     } else {
-      log(response.statusCode.toString());
+      return SignUpModel(email: email, password: password, uname: username);
     }
   }
 }

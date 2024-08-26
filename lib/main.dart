@@ -18,6 +18,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'College APP',
         //theme: lightMode,
-        home: Aboutus());
+        home: SignUpScreen());
   }
 }

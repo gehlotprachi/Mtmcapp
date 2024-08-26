@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UiHelper {
-  static CustomTextField(TextEditingController controller, String text,
-      IconData icondata) {
+  static CustomTextField(
+      TextEditingController controller, String text, IconData icondata) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       child: TextField(
@@ -18,7 +18,8 @@ class UiHelper {
     );
   }
 
-  static CustomButton(VoidCallback callback, String text) {
+  static CustomButton(VoidCallback callback, String text,
+      {required onPressed}) {
     return Padding(
       padding: const EdgeInsets.only(left: 25),
       child: SizedBox(
@@ -32,9 +33,9 @@ class UiHelper {
               backgroundColor: WidgetStateProperty.all<Color>(Colors.pink),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(color: Colors.grey),
-                  ))),
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(color: Colors.grey),
+              ))),
           child: Text(
             text,
             style: TextStyle(
@@ -45,20 +46,19 @@ class UiHelper {
     );
   }
 
-//   static log(BuildContext context, String text) {
+//   static  Customlog(BuildContext context, String text) {
 //     return showDialog(
 //         context: context,
 //         builder: (context) {
-//           return log(
-//             // title: Text(text),
-//             // actions: [
-//             //   TextButton(
-//             //       onPressed: () {
-//             //         Navigator.pop(context);
-//             //       },
-//             //       child: Text("ok"
-//             ],
-//           );
+//           return log();
+//           // title: Text(text),
+//           // actions: [
+//           //   TextButton(
+//           //       onPressed: () {
+//           //         Navigator.pop(context);
+//           //       },
+//           //       child: Text("ok"),
+//           // ],
 //         });
 //   }
 // }
@@ -69,8 +69,8 @@ class UiHelper {
     });
   }
 
-  CustomtextField(TextEditingController controller, String text,
-      IconData? icondata) {
+  CustomtextField(
+      TextEditingController controller, String text, IconData? icondata) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -108,4 +108,3 @@ class UiHelper {
     );
   }
 }
-

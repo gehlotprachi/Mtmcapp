@@ -2,7 +2,12 @@ class SignUpModel {
   String? message;
   Response? response;
 
-  SignUpModel({this.message, this.response});
+  SignUpModel(
+      {this.message,
+      this.response,
+      required String email,
+      required String password,
+      required String uname});
 
   SignUpModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
